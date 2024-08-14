@@ -20,9 +20,9 @@ importers:
 
   apps/docs:
     dependencies:
-      '@acme/ui':
+      '@dailyhotel/daily-ui':
         specifier: workspace:*
-        version: link:../../packages/ui
+        version: link:../../packages/daily-ui
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -69,6 +69,34 @@ importers:
       vite:
         specifier: ^5.1.4
         version: 5.2.11(@types/node@20.12.12)
+
+  packages/daily-ui:
+    dependencies:
+      react:
+        specifier: ^18.2.0
+        version: 18.3.1
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@types/react':
+        specifier: ^18.2.61
+        version: 18.3.2
+      '@types/react-dom':
+        specifier: ^18.2.19
+        version: 18.3.0
+      eslint:
+        specifier: ^8.57.0
+        version: 8.57.0
+      tsup:
+        specifier: ^8.0.2
+        version: 8.0.2(postcss@8.4.38)(typescript@5.4.5)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.4.5
 
   packages/eslint-config:
     devDependencies:
