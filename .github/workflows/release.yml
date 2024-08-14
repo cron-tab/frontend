@@ -1,16 +1,15 @@
-name: Release
+# .github/workflows/design-system.yml
+name: Design System Workflow
 
 on:
-  push:
-    branches:
-      - main
-
-concurrency: ${{ github.workflow }}-${{ github.ref }}
+  workflow_call:
 
 jobs:
-  release:
-    name: Release
+  build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: design-system
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
@@ -19,22 +18,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'pnpm'
 
       - name: Install Dependencies
-        working-directory: design-system
-        run: yarn
+        run: pnpm install
 
       - name: Create Release Pull Request or Publish to npm
-        id: changesets
-        uses: changesets/action@v1
-        with:
-          # This expects you to have a script called release which does a build for your packages and calls changeset publish
-          publish: yarn release
+        run: pnpm release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Send a Slack notification if a publish happens
-        if: steps.changesets.outputs.published == 'true'
-        # You can do something when a publish happens.
         run: my-slack-bot send-notification --message "A new version of ${GITHUB_REPOSITORY} was published!"
