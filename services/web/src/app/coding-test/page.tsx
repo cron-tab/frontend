@@ -1,3 +1,4 @@
-export default function CodingTest(){
-return <>coding test</>
-}
+import {CodingTest} from "../../templates/coding-test";
+
+export default CodingTest;
+
