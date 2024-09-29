@@ -1,57 +1,40 @@
-# MVC, MVP, MVVM 패턴 설명 및 JavaScript 코드 예시
+# MVC (Model-View-Controller)
 
-**MVC(Model-View-Controller)**와 같은 디자인 패턴(디자인 패턴)은 소프트웨어 개발에서 코드 구조를 정리하고 유지 보수를 쉽게 하기 위해 사용됩니다. 아래에서는 **MVC**, **MVP**,
-**MVVM** 세 가지 모델을 설명하고, 각 패턴에 대한 JavaScript 코드 예시를 제공합니다.
+MVC는 **Model-View-Controller**의 약자로, 소프트웨어 개발에서 널리 사용되는 **디자인 패턴**입니다. 애플리케이션의 **유지보수성**과 **확장성**을 높이기 위해, 코드를 **Model**, **View**, **Controller** 세 가지 주요 컴포넌트로 나누어 각자의 책임을 분리하는 것이 특징입니다.
 
-## 1. MVC (Model-View-Controller)
+아래에서 MVC의 각 컴포넌트가 무엇인지 설명하고, 이를 시각적으로 표현한 다이어그램과 함께 간단한 TypeScript 코드 예제를 제공하겠습니다.
 
-- **Model (모델)**: 데이터와 비즈니스 로직을 관리합니다. 데이터의 상태와 관련된 모든 작업을 담당합니다.
-- **View (뷰)**: 사용자에게 정보를 표시합니다. **Model**의 데이터를 시각적으로 표현하는 역할을 합니다.
-- **Controller (컨트롤러)**: 사용자 입력을 처리하고 **Model**과 **View** 간의 연결 역할을 합니다.
+## MVC 구성 요소
 
-### JavaScript 예시
+### 1. Model (모델)
+**Model**은 애플리케이션의 **데이터와 비즈니스 로직**을 관리하는 부분입니다. 데이터베이스와 상호작용하거나 데이터를 처리하는 작업을 담당하며, 애플리케이션의 상태를 관리합니다. 예를 들어, 사용자 정보나 제품 목록 등이 **Model**에 해당됩니다.
 
-```javascript
-// Model
-class Model {
-  constructor() {
-    this.data = 'Hello, MVC!';
-  }
-  getData() {
-    return this.data;
-  }
-  setData(newData) {
-    this.data = newData;
-  }
-}
+### 2. View (뷰)
+**View**는 사용자에게 보이는 인터페이스를 구성하는 요소입니다. **Model**에서 제공된 데이터를 화면에 출력하는 역할을 하며, HTML/CSS와 같은 프론트엔드 요소를 포함합니다. **View**는 데이터의 형태나 구조에 대한 로직은 처리하지 않고, 단순히 데이터를 시각적으로 표현하는 역할을 합니다.
 
-// View
-class View {
-  render(data) {
-    console.log(`View is rendering: ${data}`);
-  }
-}
+### 3. Controller (컨트롤러)
+**Controller**는 사용자 입력을 처리하고, 그 결과를 **Model**과 **View**로 전달합니다. 사용자가 어떤 행동을 취했을 때 (예: 버튼 클릭, 폼 제출 등), **Controller**는 그 요청을 받아서 **Model**을 갱신하거나, 적절한 **View**를 렌더링하도록 지시합니다.
 
-// Controller
-class Controller {
-  constructor(model, view) {
-    this.model = model;
-    this.view = view;
-  }
-  updateView() {
-    const data = this.model.getData();
-    this.view.render(data);
-  }
-  changeData(newData) {
-    this.model.setData(newData);
-    this.updateView();
-  }
-}
+## MVC의 데이터 흐름 이해하기
 
-// Usage
-const model = new Model();
-const view = new View();
-const controller = new Controller(model, view);
+MVC의 기본적인 흐름을 이해하기 위해, 각 컴포넌트의 관계를 설명하겠습니다:
 
-controller.updateView(); // Output: View is rendering: Hello, MVC!
-controller.changeData('New Data!'); // Output: View is rendering: New Data!
+1. **사용자**가 **View**에서 어떤 액션을 수행합니다.
+2. **Controller**가 사용자의 입력을 받고 처리합니다.
+3. **Controller**는 필요한 경우 **Model**을 업데이트합니다.
+4. **Model**의 데이터가 변경되면 **View**에 알리거나, **Controller**가 **View**를 다시 렌더링하도록 요청합니다.
+5. **View**는 사용자에게 업데이트된 화면을 보여줍니다.
+
+이 구조를 통해 애플리케이션의 각 요소는 서로의 역할을 명확히 분담하며 독립적으로 유지될 수 있습니다.
+
+## MVC 다이어그램
+
+아래 Mermaid 다이어그램은 MVC 구조에서의 데이터 흐름을 시각적으로 표현한 것입니다:
+
+```mermaid
+graph TD;
+User -->|입력| Controller;
+Controller -->|명령| Model;
+Model -->|데이터 업데이트| View;
+View -->|출력| User;
+Model -->|데이터 반환| Controller;
