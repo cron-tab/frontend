@@ -2,7 +2,9 @@
 
 ## 개요
 
-실행 컨텍스트는 자바스크립트 코드가 실행되는 환경으로, 실행되는 동안 여러 요소와 단계로 코드의 실행을 관리합니다. 각 실행 컨텍스트는 여러 구성 요소로 이루어져 있습니다.
+실행 컨텍스트는 자바스크립트 코드가 실행되는 환경으로, 실행되는 동안 여러 요소와 단계로 코드의 실행을 관리합니다.
+
+각 실행 컨텍스트는 여러 구성 요소로 이루어져 있습니다.
 
 ## 실행 컨텍스트 구성 요소
 
@@ -28,7 +30,6 @@ graph TD
     A --> B[Variable Environment 변수 환경]
     A --> C[Lexical Environment 렉시컬 환경]
     A --> D[This Binding This 바인딩]
-
     C --> E[Environment Record 환경 레코드]
     C --> F[Outer Environment Reference 외부 환경 참조]
 ```
@@ -80,7 +81,6 @@ flowchart TD
     B --> C[Hoisting 호이스팅]
     B --> D[Lexical Environment Setup 렉시컬 환경 설정]
     B --> E[This Binding 설정]
-
     A --> F[Execution Phase 실행 단계]
     F --> G[Initialization 초기화]
     F --> H[Code Execution 코드 실행]
