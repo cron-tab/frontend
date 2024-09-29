@@ -12,11 +12,19 @@ CRP는 크게 다음의 단계를 포함합니다:
 - HTML 파싱: 브라우저는 서버로부터 HTML 문서를 받아들인 후, 이를 파싱해 DOM(Document Object Model) 트리를 만듭니다.
 - DOM 생성: HTML 태그가 파싱될 때마다 브라우저는 DOM 트리에 요소 노드를 추가합니다. DOM은 페이지의 구조와 내용을 계층적으로 나타낸 트리입니다.
 
+```
+HTML -> Parsing -> DOM 생성
+```
+
 2. CSS 파싱 및 CSSOM 생성
 
 - CSS 파싱: HTML을 파싱하는 동안, 브라우저는 `<link>` 태그나 `<style>` 태그에 정의된 외부 CSS 파일 및 인라인 CSS를 파싱합니다.
 - CSSOM 생성: 브라우저는 CSS 규칙을 파싱하여 **CSSOM(CSS Object Model)**이라는 또 다른 트리를 만듭니다. CSSOM은 CSS 스타일 정보가 구조화된 트리로, DOM과 함께 화면을
   렌더링하는 데 사용됩니다.
+
+```
+CSS -> Parsing -> CSSOM 생성
+```
 
 3. 렌더 트리 생성
 
@@ -24,21 +32,62 @@ CRP는 크게 다음의 단계를 포함합니다:
 - 렌더 트리는 화면에 표시되지 않는 요소들(예: display: none으로 숨겨진 요소들)을 포함하지 않습니다.
 - 렌더 트리는 스타일과 레이아웃 정보도 포함하고 있습니다.
 
+```
+JavaScript -> 다운로드 및 실행 -> DOM/CSSOM 생성에 영향
+```
+
 4. 레이아웃 계산
 
 - 레이아웃(Layout): 렌더 트리에서 각 요소의 정확한 크기와 위치를 계산합니다. 이 단계에서는 뷰포트를 기준으로 모든 요소가 어디에 위치하고, 어느 정도의 크기를 가지는지 결정됩니다. 이는 “기하학적
   계산”이라고도 할 수 있습니다.
 - 브라우저는 요소가 화면에서 어디에 놓여야 할지 결정하기 위해 모든 요소의 레이아웃을 계산합니다.
 
+```
+Render Tree -> Layout 계산
+```
+
 5. 페인트(Paint)
 
 - 페인트(Paint): 요소의 스타일 속성에 따라 각 요소가 화면에 그려집니다. 이는 색상, 테두리, 그림자 등과 같이 각 요소의 시각적인 부분을 그리는 과정입니다.
 - 페인트는 렌더 트리의 각 요소를 비트맵에 그려 브라우저 화면에 나타나도록 만듭니다.
 
+```
+Layout -> Paint (픽셀로 그리기)
+```
+
 6. 합성(Composite)
 
 - 합성(Compositing): 화면에 표시될 수 있도록 여러 레이어로 나누어진 요소들이 최종적으로 합쳐져 화면에 나타납니다. 레이어는 GPU 가속을 사용할 수 있는 부분이며, 특히 애니메이션 효과나 스크롤
   등과 같은 고성능 그래픽 처리를 위해 사용됩니다.
+
+```
+여러 Layer -> Compositing -> 화면 표시
+```
+
+```mermaid
+graph TD
+    A[HTML 다운로드] --> B[HTML 파싱 및 DOM 생성]
+    A --> C[CSS 다운로드]
+    C --> D[CSS 파싱 및 CSSOM 생성]
+    B --> E[JavaScript 다운로드 및 실행]
+    E --> B
+    B --> F[DOM + CSSOM 결합]
+    D --> F
+    F --> G[렌더 트리 생성]
+    G --> H[레이아웃 계산]
+    H --> I[페인트]
+    I --> J[합성]
+    style A fill: #f9f, stroke: #333, stroke-width: 2px
+    style B fill: #bbf, stroke: #333, stroke-width: 2px
+    style C fill: #f96, stroke: #333, stroke-width: 2px
+    style D fill: #bbf, stroke: #333, stroke-width: 2px
+    style E fill: #ff9, stroke: #333, stroke-width: 2px
+    style F fill: #bbf, stroke: #333, stroke-width: 2px
+    style G fill: #96f, stroke: #333, stroke-width: 2px
+    style H fill: #bbf, stroke: #333, stroke-width: 2px
+    style I fill: #9f9, stroke: #333, stroke-width: 2px
+    style J fill: #f99, stroke: #333, stroke-width: 2px
+```
 
 CRP 최적화 기법
 
